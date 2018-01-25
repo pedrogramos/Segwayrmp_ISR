@@ -23,10 +23,14 @@
 #include "wiimote/teleop_wiimote.h"
 #include "geometry_msgs/Twist.h"
 #include "sensor_msgs/JoyFeedbackArray.h"
+#include <tf/transform_broadcaster.h>
+#include "geometry_msgs/Twist.h"
+#include "nav_msgs/Odometry.h"
+#include "segway_rmp/SegwayStatusStamped.h"
 
 #include <string>
 
-TeleopWiimote::TeleopWiimote()
+segway_teleop_wiimote::segway_teleop_wiimote()
 {
   ros::NodeHandle nh_private("~");
   ros::NodeHandle nh;
@@ -111,16 +115,17 @@ TeleopWiimote::TeleopWiimote()
   ROS_INFO("Angular Z Throttle Percent: %3.0f", percent_angular_throttle_ * 100.0);
 
   vel_pub_ = nh.advertise<geometry_msgs::Twist>("/segway_rmp_node/cmd_vel", 1);
+  //vel_pub_ = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   joy_pub_ = nh.advertise<sensor_msgs::JoyFeedbackArray>("joy/set_feedback", 1);
 
-  joy_sub_ = nh.subscribe<sensor_msgs::Joy>("wiimote/nunchuk", 10, &TeleopWiimote::joyCallback, this);
-  wiimote_sub_ = nh.subscribe<wiimote::State>("wiimote/state", 10, &TeleopWiimote::wiimoteStateCallback, this);
+  joy_sub_ = nh.subscribe<sensor_msgs::Joy>("wiimote/nunchuk", 10, &segway_teleop_wiimote::joyCallback, this);
+  wiimote_sub_ = nh.subscribe<wiimote::State>("wiimote/state", 10, &segway_teleop_wiimote::wiimoteStateCallback, this);
 
   dpad_in_use_ = false;
   njoy_in_use_ = false;
 }
 
-void TeleopWiimote::setLEDFeedback(double value)
+void segway_teleop_wiimote::setLEDFeedback(double value)
 {
   sensor_msgs::JoyFeedbackArray joy_feedback_array;
   sensor_msgs::JoyFeedback fb_led0;
@@ -166,7 +171,7 @@ void TeleopWiimote::setLEDFeedback(double value)
   joy_pub_.publish(joy_feedback_array);
 }
 
-void TeleopWiimote::rumbleFeedback(int useconds)
+void segway_teleop_wiimote::rumbleFeedback(int useconds)
 {
   sensor_msgs::JoyFeedbackArray joy_feedback_array;
   sensor_msgs::JoyFeedback fb_rumble;
@@ -187,7 +192,7 @@ void TeleopWiimote::rumbleFeedback(int useconds)
   joy_pub_.publish(joy_feedback_array);
 }
 
-void TeleopWiimote::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
+void segway_teleop_wiimote::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
   geometry_msgs::Twist vel;
 
@@ -284,7 +289,7 @@ void TeleopWiimote::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     }
   }
 }
-void TeleopWiimote::wiimoteStateCallback(const wiimote::State::ConstPtr& wiistate)
+void segway_teleop_wiimote::wiimoteStateCallback(const wiimote::State::ConstPtr& wiistate)
 {
   ros::NodeHandle nh_private("~");
   geometry_msgs::Twist vel;
@@ -531,8 +536,8 @@ void TeleopWiimote::wiimoteStateCallback(const wiimote::State::ConstPtr& wiistat
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "teleop_wiimote");
-  TeleopWiimote teleop_wiimote;
+  ros::init(argc, argv, "segway_teleop_wiimote");
+  segway_teleop_wiimote segway_teleop_wiimote;
 
   ros::spin();
 }

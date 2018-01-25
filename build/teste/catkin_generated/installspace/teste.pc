@@ -1,0 +1,8 @@
+prefix=/home/rmp/catkin_ws/install
+
+Name: teste
+Description: Description of teste
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/rmp/catkin_ws/install/lib 
+Requires: 

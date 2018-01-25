@@ -442,6 +442,12 @@ std_msgs_DIR:PATH=/opt/ros/kinetic/share/std_msgs/cmake
 //The directory containing a CMake configuration file for std_srvs.
 std_srvs_DIR:PATH=/opt/ros/kinetic/share/std_srvs/cmake
 
+//Value Computed by CMake
+teste_BINARY_DIR:STATIC=/home/rmp/catkin_ws/build/teste
+
+//Value Computed by CMake
+teste_SOURCE_DIR:STATIC=/home/rmp/catkin_ws/src/teste
+
 //The directory containing a CMake configuration file for tf2.
 tf2_DIR:PATH=/opt/ros/kinetic/share/tf2/cmake
 

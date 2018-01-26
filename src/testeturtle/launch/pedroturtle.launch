@@ -1,0 +1,13 @@
+<launch>
+  <node
+    pkg="turtlesim"
+    name="turtlesim_node"
+    type="turtlesim_node"
+    />
+
+  <node
+    pkg="testeturtle"
+    name="velocity_turtle1_node"
+    type="velocity_turtle1_node"
+  />
+</launch>

@@ -7,5 +7,6 @@
 subdirs(gtest)
 subdirs(wjwwood-serial-bdba3a8)
 subdirs(beginner_tutorials)
+subdirs(testeturtle)
 subdirs(segway_rmp-master)
 subdirs(wiimote)

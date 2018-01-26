@@ -1,2 +1,2 @@
-beginner_tutorials:segway_rmp-master:wiimote:wjwwood-serial-bdba3a8
+beginner_tutorials:segway_rmp-master:testeturtle:wiimote:wjwwood-serial-bdba3a8
 -DCATKIN_DEVEL_PREFIX=/home/rmp/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/rmp/catkin_ws/install -G Unix Makefiles

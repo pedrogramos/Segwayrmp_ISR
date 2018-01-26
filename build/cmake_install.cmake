@@ -119,6 +119,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/rmp/catkin_ws/build/gtest/cmake_install.cmake")
   include("/home/rmp/catkin_ws/build/wjwwood-serial-bdba3a8/cmake_install.cmake")
   include("/home/rmp/catkin_ws/build/beginner_tutorials/cmake_install.cmake")
+  include("/home/rmp/catkin_ws/build/testeturtle/cmake_install.cmake")
   include("/home/rmp/catkin_ws/build/segway_rmp-master/cmake_install.cmake")
   include("/home/rmp/catkin_ws/build/wiimote/cmake_install.cmake")
 

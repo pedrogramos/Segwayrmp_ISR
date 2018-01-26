@@ -1,0 +1,8 @@
+prefix=/home/rmp/catkin_ws/devel
+
+Name: testeturtle
+Description: Description of testeturtle
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/rmp/catkin_ws/devel/lib 
+Requires: 

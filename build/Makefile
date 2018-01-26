@@ -855,6 +855,19 @@ beginner_tutorials_geneus/fast:
 .PHONY : beginner_tutorials_geneus/fast
 
 #=============================================================================
+# Target rules for targets named velocity_turtle1_node
+
+# Build rule for target.
+velocity_turtle1_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 velocity_turtle1_node
+.PHONY : velocity_turtle1_node
+
+# fast build rule for target.
+velocity_turtle1_node/fast:
+	$(MAKE) -f testeturtle/CMakeFiles/velocity_turtle1_node.dir/build.make testeturtle/CMakeFiles/velocity_turtle1_node.dir/build
+.PHONY : velocity_turtle1_node/fast
+
+#=============================================================================
 # Target rules for targets named segway_rmp_node
 
 # Build rule for target.
@@ -1947,6 +1960,7 @@ help:
 	@echo "... beginner_tutorials_gencpp"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... beginner_tutorials_geneus"
+	@echo "... velocity_turtle1_node"
 	@echo "... segway_rmp_node"
 	@echo "... segway_rmp_genpy"
 	@echo "... segway_rmp_generate_messages_py"

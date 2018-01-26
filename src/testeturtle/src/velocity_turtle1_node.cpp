@@ -13,7 +13,7 @@
 int main(int argc, char **argv) {
 
 	//Initializes ROS, and sets up a node with the name "send_velocity_node"
-	ros::init(argc, argv, "velocity_turtle_node");
+	ros::init(argc, argv, "velocity_turtle1_node");
 	ros::NodeHandle nh;
 
 	// topico que vai publicar os comandos de velocidade 

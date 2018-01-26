@@ -134,6 +134,11 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/testeturtle_node.cpp)
 
+## C++ Teleop for Wiimote Node: Declare cpp executables
+add_executable(velocity_turtle1_node src/velocity_turtle1_node.cpp)
+target_link_libraries(velocity_turtle1_node ${catkin_LIBRARIES})
+## End C++ Teleop for Wiimote Node
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

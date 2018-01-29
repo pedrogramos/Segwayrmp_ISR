@@ -49,6 +49,10 @@
 /home/rmp/catkin_ws/install/share/beginner_tutorials/cmake/beginner_tutorialsConfig.cmake
 /home/rmp/catkin_ws/install/share/beginner_tutorials/cmake/beginner_tutorialsConfig-version.cmake
 /home/rmp/catkin_ws/install/share/beginner_tutorials/package.xml
+/home/rmp/catkin_ws/install/lib/pkgconfig/testeturtle.pc
+/home/rmp/catkin_ws/install/share/testeturtle/cmake/testeturtleConfig.cmake
+/home/rmp/catkin_ws/install/share/testeturtle/cmake/testeturtleConfig-version.cmake
+/home/rmp/catkin_ws/install/share/testeturtle/package.xml
 /home/rmp/catkin_ws/install/share/segway_rmp/msg/SegwayStatus.msg
 /home/rmp/catkin_ws/install/share/segway_rmp/msg/SegwayStatusStamped.msg
 /home/rmp/catkin_ws/install/share/segway_rmp/cmake/segway_rmp-msg-paths.cmake
@@ -120,6 +124,7 @@
 /home/rmp/catkin_ws/install/share/wiimote/cmake/wiimoteConfig-version.cmake
 /home/rmp/catkin_ws/install/share/wiimote/package.xml
 /home/rmp/catkin_ws/install/share/wiimote/launch/turtlesim_cpp.launch
+/home/rmp/catkin_ws/install/share/wiimote/launch/segway_wiimote.launch
 /home/rmp/catkin_ws/install/share/wiimote/launch/turtlesim_py.launch
 /home/rmp/catkin_ws/install/share/wiimote/launch/feedback_test_cpp.launch
 /home/rmp/catkin_ws/install/share/wiimote/launch/feedback_test_py.launch

@@ -102,6 +102,7 @@ testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o:
 testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/tf2_ros/buffer.h
 testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/tf2_ros/buffer_interface.h
 testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/tf2_ros/transform_broadcaster.h
+testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/turtlesim/Pose.h
 testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcDecl.h
 testeturtle/CMakeFiles/velocityturtle1_node.dir/src/velocity_turtle1_node.cpp.o: /opt/ros/kinetic/include/xmlrpcpp/XmlRpcValue.h
 

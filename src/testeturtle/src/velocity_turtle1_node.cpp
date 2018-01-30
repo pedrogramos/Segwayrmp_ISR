@@ -10,34 +10,42 @@
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 #include "std_msgs/String.h"
-// #include ""
+#include <turtlesim/Pose.h>
+
+#define PI 3.141592
+
 
 /*
-int main(int argc, char **argv) {
+int main(int argc, char**argv){
+ros::init(argc, argv, "publish_velocity");
+ros::NodeHandle nh;
 
-    //Initializes ROS, and sets up a node with the name "send_velocity_node"
-    ros::init(argc, argv, "velocity_turtle_node");
-    ros::NodeHandle nh;
+ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 1000);
 
-    // topico que vai publicar os comandos de velocidade 
-    ros::Publisher vel_pub = nh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 1);
-    // topico que vai subscrever a odometria
-    //ros::Subscriber odo_sub =nh.subscribe(nav_msgs::Odometry)("/turtle1/Pose",1000,); // type: turtlesim/Pose
+srand(time(0));
 
-    ros::Rate loop_rate(10);
+ros::Rate rate(2);
+while(ros::ok()){
+geometry_msgs::Twist msg;
+msg.linear.x = double(rand())/double(RAND_MAX);
+msg.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
 
-    geometry_msgs::Twist vel;
+pub.publish(msg);
 
+ROS_INFO_STREAM("Sending random velocity command:"<<" linear="<<msg.linear.x<<" angular="<<msg.angular.z);
 
-    vel.linear.x=10.0;
-    //vel.angular.z=0;
+rate.sleep();
+}
+}
+*/
 
-    vel_pub.publish(vel);
-    
-
-    ros::spin();
-
-return 0;
+/*
+void commandTurtle(ros::Publisher twist_pub, float linear, float angular)
+{
+  geometry_msgs::Twist twist;
+  twist.linear.x = linear;
+  twist.angular.z = angular;
+  twist_pub.publish(twist);
 }
 */
 
@@ -45,56 +53,87 @@ class SendVelocity
 {
 public:
   SendVelocity();
-  void vel_teste();
+  void velCont(double,double);
+  void stopTurtle();
+  void odomCallback(const turtlesim::PoseConstPtr&);
+  void goTo(double,double,turtlesim::PoseConstPtr&);
 
 private:
 
   
   ros::NodeHandle nh;
-  double linear_, angular_, l_scale_, a_scale_;
   ros::Publisher vel_pub;
+  ros::Subscriber odom_sub;
+  geometry_msgs::Twist vel;
   
 };
 
-SendVelocity::SendVelocity()
-{
-  vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+SendVelocity::SendVelocity(){
+
+  vel_pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
+  odom_sub = nh.subscribe("/turtle1/pose",10,&SendVelocity::odomCallback,this);
 }
 
 
-void SendVelocity::vel_teste()
-{
-for(;;)
-  {
+void SendVelocity::velCont(double line_x, double ang_z){
 
-  ROS_INFO("About to send the velocities comand");
+  vel.linear.x = line_x;
+  vel.angular.z = ang_z;
+  vel_pub.publish(vel);
 
-    geometry_msgs::Twist vel;
-    vel.angular.z = 10.0;
-    vel.linear.x = 10.0;
-
-    vel_pub.publish(vel);
-
-}
+  ROS_INFO("Velocity Comands: linear= %f e angular= %f", vel.linear.x, vel.angular.z);
 
   return;
 }
 
+void SendVelocity::stopTurtle(){
 
+  vel.linear.x = 0.0;
+  vel.angular.z = 0.0;
+  vel_pub.publish(vel);
+  ROS_INFO("STOP!!");
+}
+
+
+// rosmsg show [turtlesim/Pose] = msg1-> [x] 
+void SendVelocity::odomCallback(const turtlesim::PoseConstPtr& msg1){ 
+  // nav_msgs::Odometry --> pose.pose.position.
+  double x = msg1->x;
+  double y = msg1->y;
+  double theta = msg1->theta;
+
+  ROS_INFO("Odometria: X= %f, Y= %f, e Theta= %f", x,y,theta);
+}
+/*
+void SendVelocitygoTo(double line_x, double ang_z, const turtlesim::PoseConstPtr& msg1){
+
+  vel.linear.x = line_x;
+  vel.angular.z = ang_z;
+  vel_pub.publish(vel);
+} */
 
 int main(int argc, char** argv)
 {
   // nome igual ao do ficheiro
-  ros::init(argc, argv, "velocity_turtle1_node");
+  ros::init(argc, argv, "velocityturtle1_node");
   // criação do objecto da classe
-  SendVelocity velocityturtle1_node;
-  // iniciação da função teste 
-  velocityturtle1_node.vel_teste();
+  SendVelocity turtle1;
+  turtle1.velCont(0.5,0.0);
+  //ros::Rate rate(2);
 
   ros::spin();
-  
-  return(0);
+  //ros::spinOnce();
 }
 
+/*
+  ros::Rate loop_rate(10);
+  while(ros::ok()){
+    //turtle1.velCont(2.0,0.0);    
+    turtle1.fala();
+    //rate.sleep();
+    loop_rate.sleep();
+
+  }
 
 
+*/

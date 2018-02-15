@@ -16,7 +16,9 @@ find_package(catkin REQUIRED COMPONENTS
   rosconsole 
   roscpp_serialization 
   roslib 
-  rostime 
+  rostime
+  tf2
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,6 +113,8 @@ catkin_package(
  message_runtime 
  std_msgs 
  std_srvs
+ tf2
+ tf2_ros
 )
 
 ###########
@@ -130,6 +134,10 @@ link_directories(${catkin_LIBRARY_DIRS})
 add_executable(velocityturtle1_node src/velocity_turtle1_node.cpp)
 add_dependencies(velocityturtle1_node velocity_turtle1_node_generation_messages_cpp)
 target_link_libraries(velocityturtle1_node ${catkin_LIBRARIES})
+
+add_executable(tf2broadcaster_node src/tf2_broadcaster.cpp)
+add_dependencies(tf2broadcaster_node tf2_broadcaster_generation_messages_cpp)
+target_link_libraries(tf2broadcaster_node ${catkin_LIBRARIES})
 ## End C++ Teleop for Wiimote Node
 
 

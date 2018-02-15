@@ -3,79 +3,74 @@
 #include <cmath>
 #include <stdlib.h>
 #include <stdio.h>
-#include "ros/ros.h"
+#include <ros/ros.h>
 #include <signal.h>
 #include <termios.h>
 #include <tf/transform_broadcaster.h>
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Bool.h"
 #include <turtlesim/Pose.h>
+//TF2
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <geometry_msgs/TransformStamped.h>
+#include <tf2_ros/transform_listener.h>
 
 #define PI 3.141592
+#define Kl 0.6
+#define Kw 0.6
 
-
-/*
-int main(int argc, char**argv){
-ros::init(argc, argv, "publish_velocity");
-ros::NodeHandle nh;
-
-ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel", 1000);
-
-srand(time(0));
-
-ros::Rate rate(2);
-while(ros::ok()){
-geometry_msgs::Twist msg;
-msg.linear.x = double(rand())/double(RAND_MAX);
-msg.angular.z = 2*double(rand())/double(RAND_MAX) - 1;
-
-pub.publish(msg);
-
-ROS_INFO_STREAM("Sending random velocity command:"<<" linear="<<msg.linear.x<<" angular="<<msg.angular.z);
-
-rate.sleep();
-}
-}
-*/
-
-/*
-void commandTurtle(ros::Publisher twist_pub, float linear, float angular)
-{
-  geometry_msgs::Twist twist;
-  twist.linear.x = linear;
-  twist.angular.z = angular;
-  twist_pub.publish(twist);
-}
-*/
 
 class SendVelocity
 {
 public:
   SendVelocity();
-  void velCont(double,double);
+  void sendVel(double,double);
   void stopTurtle();
   void odomCallback(const turtlesim::PoseConstPtr&);
-  void goTo(double,double,turtlesim::PoseConstPtr&);
+  void infoOdom();
+  void goTo(double,double);
+  void goTo2(double,double);
+  void goTo3(double,double);
+  void run(double,double,double);
+  void spline();
 
 private:
 
   
   ros::NodeHandle nh;
   ros::Publisher vel_pub;
+  //ros::Publisher vazio_pub;
+  //ros::Subscriber vazio_sub;
   ros::Subscriber odom_sub;
   geometry_msgs::Twist vel;
+  double odomX;
+  double odomY;
+  double odomTheta;
+  // para ter sempre a odometria à mão
+  turtlesim::PoseConstPtr aPose;
+  // variavel do tipo pose para as coordenadas de destino
+  turtlesim::Pose gPose;
+  //TF2
+
   
 };
 
 SendVelocity::SendVelocity(){
 
   vel_pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
+  //vazio_pub=nh.advertise<std_msgs::Bool>("/pedro",1);
+  //vazio_sub=nh.subscribe("/pedro",1,&SendVelocity::stopTurtle,this);
   odom_sub = nh.subscribe("/turtle1/pose",10,&SendVelocity::odomCallback,this);
+  //Foo foo_object;
+  //ros::Subscriber sub = nh.subscribe("my_topic", 1, &Foo::callback, &foo_object);
+  
 }
 
 
-void SendVelocity::velCont(double line_x, double ang_z){
+void SendVelocity::sendVel(double line_x, double ang_z){
 
   vel.linear.x = line_x;
   vel.angular.z = ang_z;
@@ -85,12 +80,23 @@ void SendVelocity::velCont(double line_x, double ang_z){
 
   return;
 }
+/*
+void SendVelocity::spline(){
+    //   vel.angular.z = 4.0 * atan2(transformStamped.transform.translation.y,
+    //                                 transformStamped.transform.translation.x);
+    //   vel.linear.x = 0.5 * sqrt(pow(transformStamped.transform.translation.x, 2) +
+    //                               pow(transformStamped.transform.translation.y, 2));
+
+    vel.angular.z = 4.0 * atan2(,);
+    vel.linear.x = 0.5 * sqrt(pow(, 2) +pow(, 2));
+
+
+    vel_pub.publish(vel);
+}*/
 
 void SendVelocity::stopTurtle(){
 
-  vel.linear.x = 0.0;
-  vel.angular.z = 0.0;
-  vel_pub.publish(vel);
+  sendVel(0.0,0.0);
   ROS_INFO("STOP!!");
 }
 
@@ -98,19 +104,73 @@ void SendVelocity::stopTurtle(){
 // rosmsg show [turtlesim/Pose] = msg1-> [x] 
 void SendVelocity::odomCallback(const turtlesim::PoseConstPtr& msg1){ 
   // nav_msgs::Odometry --> pose.pose.position.
-  double x = msg1->x;
-  double y = msg1->y;
-  double theta = msg1->theta;
+  odomX = msg1->x;
+  odomY = msg1->y;
+  odomTheta = msg1->theta;
+  aPose=msg1;
 
-  ROS_INFO("Odometria: X= %f, Y= %f, e Theta= %f", x,y,theta);
+  //ROS_INFO("Odometria: X= %f, Y= %f, e Theta= %f", x,y,theta);
 }
-/*
-void SendVelocitygoTo(double line_x, double ang_z, const turtlesim::PoseConstPtr& msg1){
 
-  vel.linear.x = line_x;
-  vel.angular.z = ang_z;
+void SendVelocity::goTo(double xf, double yf){
+
+  double theta = atan2((yf-odomY),(xf-odomX));     
+  float d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
+
+  vel.linear.x = d*cos(theta)*Kl;
+  vel.angular.z = d*sin(theta)*Kw;
   vel_pub.publish(vel);
-} */
+
+  if (d<1) stopTurtle();
+}
+
+
+void SendVelocity::goTo2(double xf, double yf){
+// calculo do módulo
+  float d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
+
+// vetores normalizados -> versor
+  double vx=(xf-odomX)/d;
+  double vy=(yf-odomY)/d;
+
+//calculo matriz rotação inversa
+//float Rx=(cos(odomTheta)*cmxM)+(sin(odomTheta)*cmyM)+(-Xa*cos(odomTheta)-Ya*sin(odomTheta));
+//float Ry=(-sin(odomTheta)*cmxM)+(cos(odomTheta)*cmyM)+(Xa*sin(odomTheta)-Ya*cos(odomTheta));
+  
+// projecções * os ganhos
+  sendVel(vx*Kl,vy*Kw);
+  ROS_INFO("d= %f", d);
+
+  if (d<1) stopTurtle();
+
+}
+
+void SendVelocity::infoOdom(){
+
+  ROS_INFO("OdometriaFun: X= %f, Y= %f, e Theta= %f", odomX,odomY,odomTheta);
+}
+
+void SendVelocity::run(double x, double y, double theta){
+  if(odomX > x+1 || odomX < x-1){
+    ROS_DEBUG("Se %f for dif de %f.", x,odomX);
+    sendVel(0.2,0.0);
+  }
+    
+  else if(odomTheta > theta+0.5 || odomTheta < theta-0.5){
+    ROS_DEBUG("Se %f for dif de %f.", theta,odomTheta);
+    sendVel(0.0,0.2);
+  }
+    
+  else stopTurtle();
+  //{
+  //  std_msgs::Bool stop;
+  //  stop.data = true;
+  //  vazio_pub.publish(stop);
+  //}
+
+}
+
+
 
 int main(int argc, char** argv)
 {
@@ -118,22 +178,19 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "velocityturtle1_node");
   // criação do objecto da classe
   SendVelocity turtle1;
-  turtle1.velCont(0.5,0.0);
-  //ros::Rate rate(2);
 
-  ros::spin();
-  //ros::spinOnce();
-}
 
-/*
-  ros::Rate loop_rate(10);
+  ros::Rate rate(10.0);
   while(ros::ok()){
-    //turtle1.velCont(2.0,0.0);    
-    turtle1.fala();
-    //rate.sleep();
-    loop_rate.sleep();
+   
+
+   turtle1.infoOdom();
+   //turtle1.goTo2(8.0,9.0);
+   turtle1.goTo2(8.0,9.0);
+
+   ros::spinOnce();
+   rate.sleep();
 
   }
-
-
-*/
+  
+}

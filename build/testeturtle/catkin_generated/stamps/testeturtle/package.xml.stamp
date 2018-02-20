@@ -5,7 +5,7 @@
   <description>
     aprender a publicar e subscrever.
   </description>
-  <maintainer email="pedro.ramoscp@gmail.com">Pedro G Ramos</maintainer>
+  <maintainer email="pedro.ramoscp@gmail.com">Pedro G. Ramos</maintainer>
   <license>BSD</license>
 
   <url type="website">http://www.ros.org/wiki/turtlessim</url>

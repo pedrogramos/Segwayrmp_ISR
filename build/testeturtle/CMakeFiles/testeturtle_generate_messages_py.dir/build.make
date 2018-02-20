@@ -53,6 +53,23 @@ CMAKE_BINARY_DIR = /home/rmp/catkin_ws/build
 # Include the progress variables for this target.
 include testeturtle/CMakeFiles/testeturtle_generate_messages_py.dir/progress.make
 
+testeturtle/CMakeFiles/testeturtle_generate_messages_py: /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/_talk.py
+testeturtle/CMakeFiles/testeturtle_generate_messages_py: /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/__init__.py
+
+
+/home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/_talk.py: /opt/ros/kinetic/lib/genpy/gensrv_py.py
+/home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/_talk.py: /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code from SRV testeturtle/talk"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv
+
+/home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/__init__.py: /opt/ros/kinetic/lib/genpy/genmsg_py.py
+/home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/__init__.py: /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/_talk.py
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Python srv __init__.py for testeturtle"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv --initpy
+
+testeturtle_generate_messages_py: testeturtle/CMakeFiles/testeturtle_generate_messages_py
+testeturtle_generate_messages_py: /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/_talk.py
+testeturtle_generate_messages_py: /home/rmp/catkin_ws/devel/lib/python2.7/dist-packages/testeturtle/srv/__init__.py
 testeturtle_generate_messages_py: testeturtle/CMakeFiles/testeturtle_generate_messages_py.dir/build.make
 
 .PHONY : testeturtle_generate_messages_py

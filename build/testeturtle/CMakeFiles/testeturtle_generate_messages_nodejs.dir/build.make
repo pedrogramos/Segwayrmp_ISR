@@ -53,6 +53,16 @@ CMAKE_BINARY_DIR = /home/rmp/catkin_ws/build
 # Include the progress variables for this target.
 include testeturtle/CMakeFiles/testeturtle_generate_messages_nodejs.dir/progress.make
 
+testeturtle/CMakeFiles/testeturtle_generate_messages_nodejs: /home/rmp/catkin_ws/devel/share/gennodejs/ros/testeturtle/srv/talk.js
+
+
+/home/rmp/catkin_ws/devel/share/gennodejs/ros/testeturtle/srv/talk.js: /opt/ros/kinetic/lib/gennodejs/gen_nodejs.py
+/home/rmp/catkin_ws/devel/share/gennodejs/ros/testeturtle/srv/talk.js: /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from testeturtle/talk.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/gennodejs/ros/testeturtle/srv
+
+testeturtle_generate_messages_nodejs: testeturtle/CMakeFiles/testeturtle_generate_messages_nodejs
+testeturtle_generate_messages_nodejs: /home/rmp/catkin_ws/devel/share/gennodejs/ros/testeturtle/srv/talk.js
 testeturtle_generate_messages_nodejs: testeturtle/CMakeFiles/testeturtle_generate_messages_nodejs.dir/build.make
 
 .PHONY : testeturtle_generate_messages_nodejs

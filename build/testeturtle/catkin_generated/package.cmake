@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "testeturtle")
 set(testeturtle_VERSION "0.0.1")
-set(testeturtle_MAINTAINER "Pedro G Ramos <pedro.ramoscp@gmail.com>")
+set(testeturtle_MAINTAINER "Pedro G. Ramos <pedro.ramoscp@gmail.com>")
 set(testeturtle_PACKAGE_FORMAT "1")
 set(testeturtle_BUILD_DEPENDS "geometry_msgs" "qtbase5-dev" "message_generation" "qt5-qmake" "rosconsole" "roscpp" "roscpp_serialization" "roslib" "rostime" "std_msgs" "std_srvs" "tf2" "tf2_ros")
 set(testeturtle_BUILD_EXPORT_DEPENDS "geometry_msgs" "libqt5-core" "libqt5-gui" "message_runtime" "rosconsole" "roscpp" "roscpp_serialization" "roslib" "rostime" "std_msgs" "std_srvs" "tf2" "tf2_ros")

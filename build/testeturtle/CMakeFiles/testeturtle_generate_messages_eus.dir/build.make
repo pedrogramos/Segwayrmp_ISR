@@ -53,14 +53,21 @@ CMAKE_BINARY_DIR = /home/rmp/catkin_ws/build
 # Include the progress variables for this target.
 include testeturtle/CMakeFiles/testeturtle_generate_messages_eus.dir/progress.make
 
+testeturtle/CMakeFiles/testeturtle_generate_messages_eus: /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/srv/talk.l
 testeturtle/CMakeFiles/testeturtle_generate_messages_eus: /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/manifest.l
 
 
+/home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/srv/talk.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
+/home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/srv/talk.l: /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from testeturtle/talk.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/srv
+
 /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/manifest.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp manifest code for testeturtle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp manifest code for testeturtle"
 	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle testeturtle geometry_msgs std_msgs std_srvs
 
 testeturtle_generate_messages_eus: testeturtle/CMakeFiles/testeturtle_generate_messages_eus
+testeturtle_generate_messages_eus: /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/srv/talk.l
 testeturtle_generate_messages_eus: /home/rmp/catkin_ws/devel/share/roseus/ros/testeturtle/manifest.l
 testeturtle_generate_messages_eus: testeturtle/CMakeFiles/testeturtle_generate_messages_eus.dir/build.make
 

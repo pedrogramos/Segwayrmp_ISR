@@ -1245,6 +1245,19 @@ actionlib_msgs_generate_messages_cpp/fast:
 .PHONY : actionlib_msgs_generate_messages_cpp/fast
 
 #=============================================================================
+# Target rules for targets named _testeturtle_generate_messages_check_deps_talk
+
+# Build rule for target.
+_testeturtle_generate_messages_check_deps_talk: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _testeturtle_generate_messages_check_deps_talk
+.PHONY : _testeturtle_generate_messages_check_deps_talk
+
+# fast build rule for target.
+_testeturtle_generate_messages_check_deps_talk/fast:
+	$(MAKE) -f testeturtle/CMakeFiles/_testeturtle_generate_messages_check_deps_talk.dir/build.make testeturtle/CMakeFiles/_testeturtle_generate_messages_check_deps_talk.dir/build
+.PHONY : _testeturtle_generate_messages_check_deps_talk/fast
+
+#=============================================================================
 # Target rules for targets named actionlib_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -2237,6 +2250,7 @@ help:
 	@echo "... tf2_msgs_generate_messages_nodejs"
 	@echo "... actionlib_generate_messages_py"
 	@echo "... actionlib_msgs_generate_messages_cpp"
+	@echo "... _testeturtle_generate_messages_check_deps_talk"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... velocityturtle1_node"
 	@echo "... tf2_msgs_generate_messages_eus"

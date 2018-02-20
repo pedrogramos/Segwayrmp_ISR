@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <cmath>
 #include <stdlib.h>
@@ -17,10 +18,13 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <tf2_ros/transform_listener.h>
+#include "testeturtle/talk.h"
 
 #define PI 3.141592
 #define Kl 0.6
 #define Kw 0.6
+
+using namespace std;
 
 
 class SendVelocity
@@ -31,20 +35,18 @@ public:
   void stopTurtle();
   void odomCallback(const turtlesim::PoseConstPtr&);
   void infoOdom();
-  void goTo(double,double);
-  void goTo2(double,double);
-  void goTo3(double,double);
-  void run(double,double,double);
-  void spline();
+  void goTo(float,float,float);
+  bool add(testeturtle::talk::Request&, testeturtle::talk::Response&);
 
 private:
 
   
   ros::NodeHandle nh;
   ros::Publisher vel_pub;
+  ros::ServiceServer service;
+  ros::Subscriber odom_sub;
   //ros::Publisher vazio_pub;
   //ros::Subscriber vazio_sub;
-  ros::Subscriber odom_sub;
   geometry_msgs::Twist vel;
   double odomX;
   double odomY;
@@ -64,6 +66,7 @@ SendVelocity::SendVelocity(){
   //vazio_pub=nh.advertise<std_msgs::Bool>("/pedro",1);
   //vazio_sub=nh.subscribe("/pedro",1,&SendVelocity::stopTurtle,this);
   odom_sub = nh.subscribe("/turtle1/pose",10,&SendVelocity::odomCallback,this);
+  service = nh.advertiseService("talk", &SendVelocity::add,this);
   //Foo foo_object;
   //ros::Subscriber sub = nh.subscribe("my_topic", 1, &Foo::callback, &foo_object);
   
@@ -76,23 +79,11 @@ void SendVelocity::sendVel(double line_x, double ang_z){
   vel.angular.z = ang_z;
   vel_pub.publish(vel);
 
-  ROS_INFO("Velocity Comands: linear= %f e angular= %f", vel.linear.x, vel.angular.z);
+  //ROS_INFO("Velocity Comands: linear= %f e angular= %f", vel.linear.x, vel.angular.z);
 
   return;
 }
-/*
-void SendVelocity::spline(){
-    //   vel.angular.z = 4.0 * atan2(transformStamped.transform.translation.y,
-    //                                 transformStamped.transform.translation.x);
-    //   vel.linear.x = 0.5 * sqrt(pow(transformStamped.transform.translation.x, 2) +
-    //                               pow(transformStamped.transform.translation.y, 2));
 
-    vel.angular.z = 4.0 * atan2(,);
-    vel.linear.x = 0.5 * sqrt(pow(, 2) +pow(, 2));
-
-
-    vel_pub.publish(vel);
-}*/
 
 void SendVelocity::stopTurtle(){
 
@@ -112,69 +103,46 @@ void SendVelocity::odomCallback(const turtlesim::PoseConstPtr& msg1){
   //ROS_INFO("Odometria: X= %f, Y= %f, e Theta= %f", x,y,theta);
 }
 
-void SendVelocity::goTo(double xf, double yf){
-
-  double theta = atan2((yf-odomY),(xf-odomX));     
-  float d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
-
-  vel.linear.x = d*cos(theta)*Kl;
-  vel.angular.z = d*sin(theta)*Kw;
-  vel_pub.publish(vel);
-
-  if (d<1) stopTurtle();
-}
 
 void SendVelocity::infoOdom(){
 
-  ROS_INFO("OdometriaFun: X= %f, Y= %f, e Theta= %f", odomX,odomY,odomTheta);
-}
-
-void SendVelocity::run(double x, double y, double theta){
-  if(odomX > x+1 || odomX < x-1){
-    ROS_DEBUG("Se %f for dif de %f.", x,odomX);
-    sendVel(0.2,0.0);
-  }
-    
-  else if(odomTheta > theta+0.5 || odomTheta < theta-0.5){
-    ROS_DEBUG("Se %f for dif de %f.", theta,odomTheta);
-    sendVel(0.0,0.2);
-  }
-    
-  else stopTurtle();
-  //{
-  //  std_msgs::Bool stop;
-  //  stop.data = true;
-  //  vazio_pub.publish(stop);
-  //}
-
+  ROS_DEBUG("OdometriaFun: X= %f, Y= %f, e Theta= %f", odomX,odomY,odomTheta);
 }
 
 
-void SendVelocity::goTo2(double xf, double yf){
+void SendVelocity::goTo(float xf, float yf,float limiar){
   // calculo do módulo
   float d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
-  while (d>0.3){
+  float c=pow((xf-odomX),2)+pow((yf-odomY),2);
+  while (c>pow(limiar,2)){
+    c=pow((xf-odomX),2)+pow((yf-odomY),2);
     d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
     // vetores normalizados -> versor
     float dx=(xf-odomX)/d;
     float dy=(yf-odomY)/d;
-
-    //float vx=cos(odomTheta)*dx-sin(odomTheta)*dy;
-    //float vy=cos(odomTheta)*dy+sin(odomTheta)*dx;
+    // calculo velocidades a enviar
     float vx=cos(odomTheta)*dx+sin(odomTheta)*dy;
     float vy=cos(odomTheta)*dy-sin(odomTheta)*dx;
-  
     // projecções * os ganhos
     sendVel(vx*Kl,vy*Kw);
-    ROS_INFO("d= %f", d);
-    infoOdom();
+    ROS_INFO("vx= %f vw= %f", vx*Kl, vy*Kw);
+    ROS_DEBUG("vx= %f vy= %f d= %f xf= %f yf= %f",vx,vy, d, xf, yf);
     ros::spinOnce();
   }
 
-  if(d<0.3) stopTurtle();
+  if(c<pow(limiar,2)){
+    ROS_INFO("chegou ao ponto x= %f e y= %f",xf, yf);
+    infoOdom();
+  } 
 
 } 
-  
+
+bool SendVelocity::add(testeturtle::talk::Request  &req, testeturtle::talk::Response &res)
+{
+  res.val=1;
+  ROS_INFO("sending back response: [%d]", (long int)res.val);
+  return true;
+}
 
 int main(int argc, char** argv)
 {
@@ -182,23 +150,37 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "velocityturtle1_node");
   // criação do objecto da classe
   SendVelocity turtle1;
-  float x,y;
+
+  ifstream myReadFile;
+  myReadFile.open("/home/rmp/catkin_ws/src/testeturtle/src/pontos.txt");
+ float xf[100];
+ float yf[100];
+ int i=0;
+ int j=0;
+ if (myReadFile.is_open()) {
+ while (!myReadFile.eof()) {
+
+    myReadFile >> xf[i] >> yf[i];
+    i++;
+  }
+}
+myReadFile.close();
+
 
 
   ros::Rate rate(10.0);
   while(ros::ok()){
-
-   ROS_INFO("Introduza o proxima coordenada x:");
-   std::cin >> x;
-   ROS_INFO("Introduza o proxima coordenada y:");
-   std::cin >> y;
-
-   turtle1.goTo2(x,y);
-
+  
+  if(j<i-2){
+  turtle1.goTo(xf[j],yf[j],0.3);
+  j++;
+  }
+  else turtle1.stopTurtle();
 
    ros::spinOnce();
    rate.sleep();
 
   }
-  
+
+return 0;
 }

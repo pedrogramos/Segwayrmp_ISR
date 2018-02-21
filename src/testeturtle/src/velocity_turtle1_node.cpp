@@ -18,7 +18,9 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <tf2_ros/transform_listener.h>
-#include "testeturtle/talk.h"
+#include "testeturtle/addpoint.h"
+#include "testeturtle/go.h"
+#include "testeturtle/stop.h"
 
 #define PI 3.141592
 #define Kl 0.6
@@ -36,15 +38,19 @@ public:
   void odomCallback(const turtlesim::PoseConstPtr&);
   void infoOdom();
   void goTo(float,float,float);
-  bool add(testeturtle::talk::Request&, testeturtle::talk::Response&);
+  bool def_go(testeturtle::go::Request&, testeturtle::go::Response&);
+  bool def_addpoint(testeturtle::addpoint::Request&, testeturtle::addpoint::Response&);
+  bool def_stop(testeturtle::stop::Request&, testeturtle::stop::Response&);
 
 private:
 
   
   ros::NodeHandle nh;
   ros::Publisher vel_pub;
-  ros::ServiceServer service;
   ros::Subscriber odom_sub;
+  ros::ServiceServer service0;
+  ros::ServiceServer service1;
+  ros::ServiceServer service2;
   //ros::Publisher vazio_pub;
   //ros::Subscriber vazio_sub;
   geometry_msgs::Twist vel;
@@ -66,7 +72,9 @@ SendVelocity::SendVelocity(){
   //vazio_pub=nh.advertise<std_msgs::Bool>("/pedro",1);
   //vazio_sub=nh.subscribe("/pedro",1,&SendVelocity::stopTurtle,this);
   odom_sub = nh.subscribe("/turtle1/pose",10,&SendVelocity::odomCallback,this);
-  service = nh.advertiseService("talk", &SendVelocity::add,this);
+  service0 = nh.advertiseService("go",&SendVelocity::def_go,this);
+  service1 = nh.advertiseService("addpoint", &SendVelocity::def_addpoint, this);
+  service2 = nh.advertiseService("stop",&SendVelocity::def_stop,this);
   //Foo foo_object;
   //ros::Subscriber sub = nh.subscribe("my_topic", 1, &Foo::callback, &foo_object);
   
@@ -137,12 +145,33 @@ void SendVelocity::goTo(float xf, float yf,float limiar){
 
 } 
 
-bool SendVelocity::add(testeturtle::talk::Request  &req, testeturtle::talk::Response &res)
+bool SendVelocity::def_go(testeturtle::go::Request &req_go,testeturtle::go::Response &res_go)
 {
-  res.val=1;
-  ROS_INFO("sending back response: [%d]", (long int)res.val);
+  res_go.var=1;
+  ROS_INFO("sending back response: [%ld]", (long int)res_go.var);
   return true;
 }
+
+bool SendVelocity::def_addpoint(testeturtle::addpoint::Request  &req_addpoint,
+         testeturtle::addpoint::Response &res_addpoint)
+{
+  // usar a lista neste serviço
+  req_addpoint.xf=10;
+  req_addpoint.yf=11;
+  res_addpoint.sum=2;
+  ROS_INFO("request: x=%ld, y=%ld", (long int)req_addpoint.xf, (long int)req_addpoint.yf);
+  ROS_INFO("sending back response: [%ld]", (long int)res_addpoint.sum);
+  return true;
+}
+
+bool SendVelocity::def_stop(testeturtle::stop::Request  &req_stop,
+         testeturtle::stop::Response &res_stop)
+{
+  res_stop.stop=0;
+  ROS_INFO("sending back response: [%ld]", (long int)res_stop.stop);
+  return true;
+}
+
 
 int main(int argc, char** argv)
 {

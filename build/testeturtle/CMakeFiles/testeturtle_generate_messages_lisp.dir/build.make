@@ -53,16 +53,30 @@ CMAKE_BINARY_DIR = /home/rmp/catkin_ws/build
 # Include the progress variables for this target.
 include testeturtle/CMakeFiles/testeturtle_generate_messages_lisp.dir/progress.make
 
-testeturtle/CMakeFiles/testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/talk.lisp
+testeturtle/CMakeFiles/testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/addpoint.lisp
+testeturtle/CMakeFiles/testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/stop.lisp
+testeturtle/CMakeFiles/testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/go.lisp
 
 
-/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/talk.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
-/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/talk.lisp: /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from testeturtle/talk.srv"
-	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/addpoint.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/addpoint.lisp: /home/rmp/catkin_ws/src/testeturtle/srv/addpoint.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from testeturtle/addpoint.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/rmp/catkin_ws/src/testeturtle/srv/addpoint.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv
+
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/stop.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/stop.lisp: /home/rmp/catkin_ws/src/testeturtle/srv/stop.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from testeturtle/stop.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/rmp/catkin_ws/src/testeturtle/srv/stop.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv
+
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/go.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
+/home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/go.lisp: /home/rmp/catkin_ws/src/testeturtle/srv/go.srv
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from testeturtle/go.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/rmp/catkin_ws/src/testeturtle/srv/go.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv
 
 testeturtle_generate_messages_lisp: testeturtle/CMakeFiles/testeturtle_generate_messages_lisp
-testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/talk.lisp
+testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/addpoint.lisp
+testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/stop.lisp
+testeturtle_generate_messages_lisp: /home/rmp/catkin_ws/devel/share/common-lisp/ros/testeturtle/srv/go.lisp
 testeturtle_generate_messages_lisp: testeturtle/CMakeFiles/testeturtle_generate_messages_lisp.dir/build.make
 
 .PHONY : testeturtle_generate_messages_lisp

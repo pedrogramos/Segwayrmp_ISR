@@ -4,6 +4,10 @@
 (defsystem "testeturtle-srv"
   :depends-on (:roslisp-msg-protocol :roslisp-utils )
   :components ((:file "_package")
-    (:file "talk" :depends-on ("_package_talk"))
-    (:file "_package_talk" :depends-on ("_package"))
+    (:file "addpoint" :depends-on ("_package_addpoint"))
+    (:file "_package_addpoint" :depends-on ("_package"))
+    (:file "go" :depends-on ("_package_go"))
+    (:file "_package_go" :depends-on ("_package"))
+    (:file "stop" :depends-on ("_package_stop"))
+    (:file "_package_stop" :depends-on ("_package"))
   ))

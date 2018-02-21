@@ -53,18 +53,36 @@ CMAKE_BINARY_DIR = /home/rmp/catkin_ws/build
 # Include the progress variables for this target.
 include testeturtle/CMakeFiles/testeturtle_generate_messages_cpp.dir/progress.make
 
-testeturtle/CMakeFiles/testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/talk.h
+testeturtle/CMakeFiles/testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h
+testeturtle/CMakeFiles/testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/stop.h
+testeturtle/CMakeFiles/testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/go.h
 
 
-/home/rmp/catkin_ws/devel/include/testeturtle/talk.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
-/home/rmp/catkin_ws/devel/include/testeturtle/talk.h: /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv
-/home/rmp/catkin_ws/devel/include/testeturtle/talk.h: /opt/ros/kinetic/share/gencpp/msg.h.template
-/home/rmp/catkin_ws/devel/include/testeturtle/talk.h: /opt/ros/kinetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from testeturtle/talk.srv"
-	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/rmp/catkin_ws/src/testeturtle/srv/talk.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/include/testeturtle -e /opt/ros/kinetic/share/gencpp/cmake/..
+/home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
+/home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h: /home/rmp/catkin_ws/src/testeturtle/srv/addpoint.srv
+/home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h: /opt/ros/kinetic/share/gencpp/msg.h.template
+/home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h: /opt/ros/kinetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from testeturtle/addpoint.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/rmp/catkin_ws/src/testeturtle/srv/addpoint.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/include/testeturtle -e /opt/ros/kinetic/share/gencpp/cmake/..
+
+/home/rmp/catkin_ws/devel/include/testeturtle/stop.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
+/home/rmp/catkin_ws/devel/include/testeturtle/stop.h: /home/rmp/catkin_ws/src/testeturtle/srv/stop.srv
+/home/rmp/catkin_ws/devel/include/testeturtle/stop.h: /opt/ros/kinetic/share/gencpp/msg.h.template
+/home/rmp/catkin_ws/devel/include/testeturtle/stop.h: /opt/ros/kinetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from testeturtle/stop.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/rmp/catkin_ws/src/testeturtle/srv/stop.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/include/testeturtle -e /opt/ros/kinetic/share/gencpp/cmake/..
+
+/home/rmp/catkin_ws/devel/include/testeturtle/go.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
+/home/rmp/catkin_ws/devel/include/testeturtle/go.h: /home/rmp/catkin_ws/src/testeturtle/srv/go.srv
+/home/rmp/catkin_ws/devel/include/testeturtle/go.h: /opt/ros/kinetic/share/gencpp/msg.h.template
+/home/rmp/catkin_ws/devel/include/testeturtle/go.h: /opt/ros/kinetic/share/gencpp/srv.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/rmp/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from testeturtle/go.srv"
+	cd /home/rmp/catkin_ws/build/testeturtle && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/rmp/catkin_ws/src/testeturtle/srv/go.srv -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -p testeturtle -o /home/rmp/catkin_ws/devel/include/testeturtle -e /opt/ros/kinetic/share/gencpp/cmake/..
 
 testeturtle_generate_messages_cpp: testeturtle/CMakeFiles/testeturtle_generate_messages_cpp
-testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/talk.h
+testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/addpoint.h
+testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/stop.h
+testeturtle_generate_messages_cpp: /home/rmp/catkin_ws/devel/include/testeturtle/go.h
 testeturtle_generate_messages_cpp: testeturtle/CMakeFiles/testeturtle_generate_messages_cpp.dir/build.make
 
 .PHONY : testeturtle_generate_messages_cpp

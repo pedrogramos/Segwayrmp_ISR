@@ -33,7 +33,11 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/testeturtle/srv" TYPE FILE FILES "/home/rmp/catkin_ws/src/testeturtle/srv/talk.srv")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/testeturtle/srv" TYPE FILE FILES
+    "/home/rmp/catkin_ws/src/testeturtle/srv/go.srv"
+    "/home/rmp/catkin_ws/src/testeturtle/srv/addpoint.srv"
+    "/home/rmp/catkin_ws/src/testeturtle/srv/stop.srv"
+    )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")

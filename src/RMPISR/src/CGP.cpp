@@ -30,7 +30,7 @@ using namespace std;
 #define Kw 0.6
 enum states{GO,STOP,STOPPING,ADDPOINT};
 enum states state=GO;
-typedef struct { float xf, yf;} ponto;
+typedef struct { float xf, yf;} new_point;
 std::queue<ponto> fila_pontos;
 
 
@@ -166,23 +166,31 @@ bool SendVelocity::def_addpoint(RMPISR::addpoint::Request  &req_addpoint, RMPISR
 
   if(req_addpoint.type==false){
 
-    ponto.xf=req_addpoint.xf;
-    ponto.yf=req_addpoint.yf;
+    new_point.xf=req_addpoint.xf;
+    new_point.yf=req_addpoint.yf;
     fila_pontos.push(ponto);
   }
 
   if(req_addpoint.type==true){
     while (!fila_pontos.empty()) fila_pontos.pop();
-    ponto.xf=req_addpoint.xf;
-    ponto.yf=req_addpoint.yf;
+    new_point.xf=req_addpoint.xf;
+    new_point.yf=req_addpoint.yf;
     fila_pontos.push(ponto);
 
 
   }
 
-  while (!fila_pontos.empty()) fila_pontos.pop();
-  ROS_INFO("request: x=%ld, y=%ld", (long int)req_addpoint.xf, (long int)req_addpoint.yf);
-  ROS_INFO("sending back response: [%ld]", (long int)res_addpoint.sum);
+  for (int i=0;i<fila_pontos.size;i++){
+    cout << fila_pontos.front() << endl;
+    fila_pontos.push_back();
+    //myints.push(i)  --> experimentar assim
+  }
+
+    
+
+
+  //ROS_INFO("request: x=%ld, y=%ld", (long int)req_addpoint.xf, (long int)req_addpoint.yf);
+  //ROS_INFO("sending back response: [%ld]", (long int)res_addpoint.sum);
   return true;
 }
 
@@ -212,7 +220,7 @@ int main(int argc, char** argv)
       case GO: {
       ROS_INFO("state = GO");
       //ros::Duration(3).sleep(); // sleep for a second
-      
+
 
       
   

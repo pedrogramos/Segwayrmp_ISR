@@ -25,11 +25,13 @@ struct addpointRequest_
 
   addpointRequest_()
     : xf(0)
-    , yf(0)  {
+    , yf(0)
+    , type(false)  {
     }
   addpointRequest_(const ContainerAllocator& _alloc)
     : xf(0)
-    , yf(0)  {
+    , yf(0)
+    , type(false)  {
   (void)_alloc;
     }
 
@@ -40,6 +42,9 @@ struct addpointRequest_
 
    typedef int64_t _yf_type;
   _yf_type yf;
+
+   typedef uint8_t _type_type;
+  _type_type type;
 
 
 
@@ -118,12 +123,12 @@ struct MD5Sum< ::RMPISR::addpointRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "f74722ec6a2d83ce9d9226fd6f2f87e1";
+    return "4e6a9d759cb716b8e70b6066a387ed42";
   }
 
   static const char* value(const ::RMPISR::addpointRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xf74722ec6a2d83ceULL;
-  static const uint64_t static_value2 = 0x9d9226fd6f2f87e1ULL;
+  static const uint64_t static_value1 = 0x4e6a9d759cb716b8ULL;
+  static const uint64_t static_value2 = 0xe70b6066a387ed42ULL;
 };
 
 template<class ContainerAllocator>
@@ -144,6 +149,7 @@ struct Definition< ::RMPISR::addpointRequest_<ContainerAllocator> >
   {
     return "int64 xf\n\
 int64 yf\n\
+bool type\n\
 ";
   }
 
@@ -164,6 +170,7 @@ namespace serialization
     {
       stream.next(m.xf);
       stream.next(m.yf);
+      stream.next(m.type);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -186,6 +193,8 @@ struct Printer< ::RMPISR::addpointRequest_<ContainerAllocator> >
     Printer<int64_t>::stream(s, indent + "  ", v.xf);
     s << indent << "yf: ";
     Printer<int64_t>::stream(s, indent + "  ", v.yf);
+    s << indent << "type: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.type);
   }
 };
 

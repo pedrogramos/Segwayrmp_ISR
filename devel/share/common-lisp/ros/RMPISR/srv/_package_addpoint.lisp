@@ -3,6 +3,6 @@
           XF
           YF-VAL
           YF
-          SUM-VAL
-          SUM
+          TYPE-VAL
+          TYPE
 ))

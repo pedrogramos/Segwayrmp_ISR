@@ -24,17 +24,14 @@ struct addpointResponse_
   typedef addpointResponse_<ContainerAllocator> Type;
 
   addpointResponse_()
-    : sum(0)  {
+    {
     }
   addpointResponse_(const ContainerAllocator& _alloc)
-    : sum(0)  {
+    {
   (void)_alloc;
     }
 
 
-
-   typedef int64_t _sum_type;
-  _sum_type sum;
 
 
 
@@ -113,12 +110,12 @@ struct MD5Sum< ::RMPISR::addpointResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "b88405221c77b1878a3cbbfff53428d7";
+    return "d41d8cd98f00b204e9800998ecf8427e";
   }
 
   static const char* value(const ::RMPISR::addpointResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xb88405221c77b187ULL;
-  static const uint64_t static_value2 = 0x8a3cbbfff53428d7ULL;
+  static const uint64_t static_value1 = 0xd41d8cd98f00b204ULL;
+  static const uint64_t static_value2 = 0xe9800998ecf8427eULL;
 };
 
 template<class ContainerAllocator>
@@ -137,8 +134,7 @@ struct Definition< ::RMPISR::addpointResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "int64 sum\n\
-\n\
+    return "\n\
 ";
   }
 
@@ -155,10 +151,8 @@ namespace serialization
 
   template<class ContainerAllocator> struct Serializer< ::RMPISR::addpointResponse_<ContainerAllocator> >
   {
-    template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
-    {
-      stream.next(m.sum);
-    }
+    template<typename Stream, typename T> inline static void allInOne(Stream&, T)
+    {}
 
     ROS_DECLARE_ALLINONE_SERIALIZER
   }; // struct addpointResponse_
@@ -174,11 +168,8 @@ namespace message_operations
 template<class ContainerAllocator>
 struct Printer< ::RMPISR::addpointResponse_<ContainerAllocator> >
 {
-  template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::RMPISR::addpointResponse_<ContainerAllocator>& v)
-  {
-    s << indent << "sum: ";
-    Printer<int64_t>::stream(s, indent + "  ", v.sum);
-  }
+  template<typename Stream> static void stream(Stream&, const std::string&, const ::RMPISR::addpointResponse_<ContainerAllocator>&)
+  {}
 };
 
 } // namespace message_operations

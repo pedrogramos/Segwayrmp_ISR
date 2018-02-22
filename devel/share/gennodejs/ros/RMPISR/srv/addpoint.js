@@ -23,6 +23,7 @@ class addpointRequest {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.xf = null;
       this.yf = null;
+      this.type = null;
     }
     else {
       if (initObj.hasOwnProperty('xf')) {
@@ -37,6 +38,12 @@ class addpointRequest {
       else {
         this.yf = 0;
       }
+      if (initObj.hasOwnProperty('type')) {
+        this.type = initObj.type
+      }
+      else {
+        this.type = false;
+      }
     }
   }
 
@@ -46,6 +53,8 @@ class addpointRequest {
     bufferOffset = _serializer.int64(obj.xf, buffer, bufferOffset);
     // Serialize message field [yf]
     bufferOffset = _serializer.int64(obj.yf, buffer, bufferOffset);
+    // Serialize message field [type]
+    bufferOffset = _serializer.bool(obj.type, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -57,11 +66,13 @@ class addpointRequest {
     data.xf = _deserializer.int64(buffer, bufferOffset);
     // Deserialize message field [yf]
     data.yf = _deserializer.int64(buffer, bufferOffset);
+    // Deserialize message field [type]
+    data.type = _deserializer.bool(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 16;
+    return 17;
   }
 
   static datatype() {
@@ -71,7 +82,7 @@ class addpointRequest {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'f74722ec6a2d83ce9d9226fd6f2f87e1';
+    return '4e6a9d759cb716b8e70b6066a387ed42';
   }
 
   static messageDefinition() {
@@ -79,6 +90,7 @@ class addpointRequest {
     return `
     int64 xf
     int64 yf
+    bool type
     
     `;
   }
@@ -103,6 +115,13 @@ class addpointRequest {
       resolved.yf = 0
     }
 
+    if (msg.type !== undefined) {
+      resolved.type = msg.type;
+    }
+    else {
+      resolved.type = false
+    }
+
     return resolved;
     }
 };
@@ -111,22 +130,13 @@ class addpointResponse {
   constructor(initObj={}) {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
-      this.sum = null;
     }
     else {
-      if (initObj.hasOwnProperty('sum')) {
-        this.sum = initObj.sum
-      }
-      else {
-        this.sum = 0;
-      }
     }
   }
 
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type addpointResponse
-    // Serialize message field [sum]
-    bufferOffset = _serializer.int64(obj.sum, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -134,13 +144,11 @@ class addpointResponse {
     //deserializes a message object of type addpointResponse
     let len;
     let data = new addpointResponse(null);
-    // Deserialize message field [sum]
-    data.sum = _deserializer.int64(buffer, bufferOffset);
     return data;
   }
 
   static getMessageSize(object) {
-    return 8;
+    return 0;
   }
 
   static datatype() {
@@ -150,13 +158,12 @@ class addpointResponse {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'b88405221c77b1878a3cbbfff53428d7';
+    return 'd41d8cd98f00b204e9800998ecf8427e';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    int64 sum
     
     
     `;
@@ -168,13 +175,6 @@ class addpointResponse {
       msg = {};
     }
     const resolved = new addpointResponse(null);
-    if (msg.sum !== undefined) {
-      resolved.sum = msg.sum;
-    }
-    else {
-      resolved.sum = 0
-    }
-
     return resolved;
     }
 };
@@ -182,6 +182,6 @@ class addpointResponse {
 module.exports = {
   Request: addpointRequest,
   Response: addpointResponse,
-  md5sum() { return '44836338e0a1e7646be09f64ff13a545'; },
+  md5sum() { return '4e6a9d759cb716b8e70b6066a387ed42'; },
   datatype() { return 'RMPISR/addpoint'; }
 };

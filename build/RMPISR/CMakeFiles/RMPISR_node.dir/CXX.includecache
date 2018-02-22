@@ -157,6 +157,8 @@ std_msgs/Bool.h
 /home/rmp/catkin_ws/src/RMPISR/src/std_msgs/Bool.h
 turtlesim/Pose.h
 -
+queue
+-
 tf2/LinearMath/Quaternion.h
 -
 tf2_ros/transform_broadcaster.h

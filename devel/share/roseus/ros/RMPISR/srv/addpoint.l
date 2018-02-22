@@ -20,17 +20,19 @@
 
 (defclass RMPISR::addpointRequest
   :super ros::object
-  :slots (_xf _yf ))
+  :slots (_xf _yf _type ))
 
 (defmethod RMPISR::addpointRequest
   (:init
    (&key
     ((:xf __xf) 0)
     ((:yf __yf) 0)
+    ((:type __type) nil)
     )
    (send-super :init)
    (setq _xf (round __xf))
    (setq _yf (round __yf))
+   (setq _type __type)
    self)
   (:xf
    (&optional __xf)
@@ -38,6 +40,9 @@
   (:yf
    (&optional __yf)
    (if __yf (setq _yf __yf)) _yf)
+  (:type
+   (&optional __type)
+   (if __type (setq _type __type)) _type)
   (:serialization-length
    ()
    (+
@@ -45,6 +50,8 @@
     8
     ;; int64 _yf
     8
+    ;; bool _type
+    1
     ))
   (:serialize
    (&optional strm)
@@ -74,6 +81,8 @@
               (write-long (if (>= _yf 0) 0 #xffffffff) s))
              (t                                         ;; integer
               (write-long _yf s)(write-long (if (>= _yf 0) 0 #xffffffff) s)))
+     ;; bool _type
+       (if _type (write-byte -1 s) (write-byte 0 s))
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -102,63 +111,35 @@
                       b0)
                     ((= b1  0) (make-instance bignum :size 1 :bv (integer-vector b0)))
                     (t (make-instance bignum :size 2 :bv (integer-vector b0 (ash b1 1)))))))
+   ;; bool _type
+     (setq _type (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;;
    self)
   )
 
 (defclass RMPISR::addpointResponse
   :super ros::object
-  :slots (_sum ))
+  :slots ())
 
 (defmethod RMPISR::addpointResponse
   (:init
    (&key
-    ((:sum __sum) 0)
     )
    (send-super :init)
-   (setq _sum (round __sum))
    self)
-  (:sum
-   (&optional __sum)
-   (if __sum (setq _sum __sum)) _sum)
   (:serialization-length
    ()
    (+
-    ;; int64 _sum
-    8
+    0
     ))
   (:serialize
    (&optional strm)
    (let ((s (if strm strm
               (make-string-output-stream (send self :serialization-length)))))
-     ;; int64 _sum
-#+(or :alpha :irix6 :x86_64)
-       (progn (sys::poke _sum (send s :buffer) (send s :count) :long) (incf (stream-count s) 8))
-#-(or :alpha :irix6 :x86_64)
-       (cond ((and (class _sum) (= (length (_sum . bv)) 2)) ;; bignum
-              (write-long (ash (elt (_sum . bv) 0) 0) s)
-              (write-long (ash (elt (_sum . bv) 1) -1) s))
-             ((and (class _sum) (= (length (_sum . bv)) 1)) ;; big1
-              (write-long (elt (_sum . bv) 0) s)
-              (write-long (if (>= _sum 0) 0 #xffffffff) s))
-             (t                                         ;; integer
-              (write-long _sum s)(write-long (if (>= _sum 0) 0 #xffffffff) s)))
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
    (buf &optional (ptr- 0))
-   ;; int64 _sum
-#+(or :alpha :irix6 :x86_64)
-      (setf _sum (prog1 (sys::peek buf ptr- :long) (incf ptr- 8)))
-#-(or :alpha :irix6 :x86_64)
-      (setf _sum (let ((b0 (prog1 (sys::peek buf ptr- :integer) (incf ptr- 4)))
-                  (b1 (prog1 (sys::peek buf ptr- :integer) (incf ptr- 4))))
-              (cond ((= b1 -1) b0)
-                     ((and (= b1  0)
-                           (<= lisp::most-negative-fixnum b0 lisp::most-positive-fixnum))
-                      b0)
-                    ((= b1  0) (make-instance bignum :size 1 :bv (integer-vector b0)))
-                    (t (make-instance bignum :size 2 :bv (integer-vector b0 (ash b1 1)))))))
    ;;
    self)
   )
@@ -167,7 +148,7 @@
   :super ros::object
   :slots ())
 
-(setf (get RMPISR::addpoint :md5sum-) "44836338e0a1e7646be09f64ff13a545")
+(setf (get RMPISR::addpoint :md5sum-) "4e6a9d759cb716b8e70b6066a387ed42")
 (setf (get RMPISR::addpoint :datatype-) "RMPISR/addpoint")
 (setf (get RMPISR::addpoint :request) RMPISR::addpointRequest)
 (setf (get RMPISR::addpoint :response) RMPISR::addpointResponse)
@@ -175,28 +156,28 @@
 (defmethod RMPISR::addpointRequest
   (:response () (instance RMPISR::addpointResponse :init)))
 
-(setf (get RMPISR::addpointRequest :md5sum-) "44836338e0a1e7646be09f64ff13a545")
+(setf (get RMPISR::addpointRequest :md5sum-) "4e6a9d759cb716b8e70b6066a387ed42")
 (setf (get RMPISR::addpointRequest :datatype-) "RMPISR/addpointRequest")
 (setf (get RMPISR::addpointRequest :definition-)
       "int64 xf
 int64 yf
+bool type
 ---
-int64 sum
 
 ")
 
-(setf (get RMPISR::addpointResponse :md5sum-) "44836338e0a1e7646be09f64ff13a545")
+(setf (get RMPISR::addpointResponse :md5sum-) "4e6a9d759cb716b8e70b6066a387ed42")
 (setf (get RMPISR::addpointResponse :datatype-) "RMPISR/addpointResponse")
 (setf (get RMPISR::addpointResponse :definition-)
       "int64 xf
 int64 yf
+bool type
 ---
-int64 sum
 
 ")
 
 
 
-(provide :RMPISR/addpoint "44836338e0a1e7646be09f64ff13a545")
+(provide :RMPISR/addpoint "4e6a9d759cb716b8e70b6066a387ed42")
 
 

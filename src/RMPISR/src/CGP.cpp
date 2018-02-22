@@ -13,6 +13,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Bool.h"
 #include <turtlesim/Pose.h>
+#include <queue>
 //TF2
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_ros/transform_broadcaster.h>
@@ -22,13 +23,15 @@
 #include "RMPISR/go.h"
 #include "RMPISR/stop.h"
 
+using namespace std;
+
 #define PI 3.141592
 #define Kl 0.6
 #define Kw 0.6
 enum states{GO,STOP,STOPPING,ADDPOINT};
 enum states state=GO;
-
-using namespace std;
+typedef struct { float xf, yf;} ponto;
+std::queue<ponto> fila_pontos;
 
 
 class SendVelocity
@@ -157,13 +160,27 @@ bool SendVelocity::def_go(RMPISR::go::Request &req_go,RMPISR::go::Response &res_
   return true;
 }
 
-bool SendVelocity::def_addpoint(RMPISR::addpoint::Request  &req_addpoint,
-         RMPISR::addpoint::Response &res_addpoint)
+bool SendVelocity::def_addpoint(RMPISR::addpoint::Request  &req_addpoint, RMPISR::addpoint::Response &res_addpoint)
 {
   // usar a lista neste serviço
-  req_addpoint.xf=10;
-  req_addpoint.yf=11;
-  res_addpoint.sum=2;
+
+  if(req_addpoint.type==false){
+
+    ponto.xf=req_addpoint.xf;
+    ponto.yf=req_addpoint.yf;
+    fila_pontos.push(ponto);
+  }
+
+  if(req_addpoint.type==true){
+    while (!fila_pontos.empty()) fila_pontos.pop();
+    ponto.xf=req_addpoint.xf;
+    ponto.yf=req_addpoint.yf;
+    fila_pontos.push(ponto);
+
+
+  }
+
+  while (!fila_pontos.empty()) fila_pontos.pop();
   ROS_INFO("request: x=%ld, y=%ld", (long int)req_addpoint.xf, (long int)req_addpoint.yf);
   ROS_INFO("sending back response: [%ld]", (long int)res_addpoint.sum);
   return true;
@@ -195,26 +212,9 @@ int main(int argc, char** argv)
       case GO: {
       ROS_INFO("state = GO");
       //ros::Duration(3).sleep(); // sleep for a second
+      
 
-      ifstream myReadFile;
-      myReadFile.open("/home/rmp/catkin_ws/src/RMPISR/src/pontos.txt");
-      float xf[100];
-      float yf[100];
-      int i=0;
-     int j=0;
-     if (myReadFile.is_open()) {
-     while (!myReadFile.eof()) {
-
-        myReadFile >> xf[i] >> yf[i];
-        i++;
-      }
-      }
-      myReadFile.close();
-
-       while(state==GO && j<i-2){
-        turtle1.goTo(xf[j],yf[j],0.3);
-        j++;
-        }
+      
   
       state=STOPPING;    
 
@@ -244,3 +244,24 @@ return 0;
 }
 
 
+/* FILE READ
+ifstream myReadFile;
+      myReadFile.open("/home/rmp/catkin_ws/src/RMPISR/src/pontos.txt");
+      float xf[100];
+      float yf[100];
+      int i=0;
+     int j=0;
+     if (myReadFile.is_open()) {
+     while (!myReadFile.eof()) {
+
+        myReadFile >> xf[i] >> yf[i];
+        i++;
+      }
+      }
+      myReadFile.close();
+
+       while(state==GO && j<i-2){
+        turtle1.goTo(xf[j],yf[j],0.3);
+        j++;
+        }
+*/

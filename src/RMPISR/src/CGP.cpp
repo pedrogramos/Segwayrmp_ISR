@@ -15,10 +15,6 @@
 #include <turtlesim/Pose.h>
 #include <queue>
 //TF2
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2_ros/transform_broadcaster.h>
-#include <geometry_msgs/TransformStamped.h>
-#include <tf2_ros/transform_listener.h>
 #include "RMPISR/addpoint.h"
 #include "RMPISR/go.h"
 #include "RMPISR/stop.h"
@@ -26,12 +22,12 @@
 using namespace std;
 
 #define PI 3.141592
-#define Kl 0.6
-#define Kw 0.6
+#define Kl 0.3
+#define Kw 0.3 //0.6
 enum states{GO,STOP,STOPPING,ADDPOINT};
 enum states state=GO;
-typedef struct { float xf, yf;} new_point;
-std::queue<ponto> fila_pontos;
+struct point { float xf; float yf;} new_point, aux_s;
+queue<point> fila_pontos, aux_q;
 
 
 class SendVelocity
@@ -75,12 +71,16 @@ private:
 SendVelocity::SendVelocity(){
 
   vel_pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
-  //vazio_pub=nh.advertise<std_msgs::Bool>("/pedro",1);
-  //vazio_sub=nh.subscribe("/pedro",1,&SendVelocity::stopTurtle,this);
   odom_sub = nh.subscribe("/turtle1/pose",10,&SendVelocity::odomCallback,this);
+  // para o segway
+  //vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  //odom_sub = nh.subscribe("odom",10,&SendVelocity::odomCallback,this);
   service0 = nh.advertiseService("go",&SendVelocity::def_go,this);
   service1 = nh.advertiseService("addpoint", &SendVelocity::def_addpoint, this);
   service2 = nh.advertiseService("stop",&SendVelocity::def_stop,this);
+
+  //vazio_pub=nh.advertise<std_msgs::Bool>("/pedro",1);
+  //vazio_sub=nh.subscribe("/pedro",1,&SendVelocity::stopTurtle,this);
 
 
   //Foo foo_object;
@@ -130,6 +130,8 @@ void SendVelocity::goTo(float xf, float yf,float limiar){
   // calculo do módulo
   float d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
   float c=pow((xf-odomX),2)+pow((yf-odomY),2);
+  ROS_INFO("Proximo ponto: X= %f e Y= %f.",xf, yf);
+
   while (c>pow(limiar,2)){
     c=pow((xf-odomX),2)+pow((yf-odomY),2);
     d=sqrt(pow((xf-odomX),2)+pow((yf-odomY),2));
@@ -141,17 +143,20 @@ void SendVelocity::goTo(float xf, float yf,float limiar){
     float vy=cos(odomTheta)*dy-sin(odomTheta)*dx;
     // projecções * os ganhos
     sendVel(vx*Kl,vy*Kw);
-    ROS_INFO("vx= %f vw= %f", vx*Kl, vy*Kw);
+    //ROS_INFO("vx= %f vw= %f", vx*Kl, vy*Kw);
     ROS_DEBUG("vx= %f vy= %f d= %f xf= %f yf= %f",vx,vy, d, xf, yf);
     ros::spinOnce();
+    if (state==STOPPING) return;
   }
 
-  if(c<pow(limiar,2)){
-    ROS_INFO("chegou ao ponto x= %f e y= %f",xf, yf);
-    infoOdom();
+  if(c<pow(limiar,2))
+    ROS_INFO("Chegou ao ponto: X= %f e Y= %f.",xf, yf);
+    fila_pontos.pop();
+
+    //state=GO;
+    //infoOdom();
   } 
 
-} 
 
 bool SendVelocity::def_go(RMPISR::go::Request &req_go,RMPISR::go::Response &res_go)
 {
@@ -164,32 +169,34 @@ bool SendVelocity::def_addpoint(RMPISR::addpoint::Request  &req_addpoint, RMPISR
 {
   // usar a lista neste serviço
 
-  if(req_addpoint.type==false){
-
-    new_point.xf=req_addpoint.xf;
-    new_point.yf=req_addpoint.yf;
-    fila_pontos.push(ponto);
-  }
+  ROS_INFO("ENTROU ADD");
 
   if(req_addpoint.type==true){
-    while (!fila_pontos.empty()) fila_pontos.pop();
+
     new_point.xf=req_addpoint.xf;
     new_point.yf=req_addpoint.yf;
-    fila_pontos.push(ponto);
-
-
-  }
-
-  for (int i=0;i<fila_pontos.size;i++){
-    cout << fila_pontos.front() << endl;
-    fila_pontos.push_back();
-    //myints.push(i)  --> experimentar assim
+    fila_pontos.push(new_point);
   }
 
     
 
+  if(req_addpoint.type==false){
+    while (!fila_pontos.empty()) fila_pontos.pop();
+    new_point.xf=req_addpoint.xf;
+    new_point.yf=req_addpoint.yf;
+    fila_pontos.push(new_point);
+  }
 
-  //ROS_INFO("request: x=%ld, y=%ld", (long int)req_addpoint.xf, (long int)req_addpoint.yf);
+  // PRINTING QUEUE
+  aux_q=fila_pontos;
+  aux_s=aux_q.front();
+  while (!aux_q.empty()){
+    aux_s=aux_q.front();
+    std::cout<< "X= " << aux_s.xf << " Y= " << aux_s.yf << endl;
+    aux_q.pop();
+  }
+
+  ROS_INFO("request: x=%f, y=%f, type=%i", (float)req_addpoint.xf,(float)req_addpoint.yf,req_addpoint.type);
   //ROS_INFO("sending back response: [%ld]", (long int)res_addpoint.sum);
   return true;
 }
@@ -219,10 +226,12 @@ int main(int argc, char** argv)
     switch(state){
       case GO: {
       ROS_INFO("state = GO");
-      //ros::Duration(3).sleep(); // sleep for a second
 
+      while(!fila_pontos.empty() && state==GO){
+        aux_s=fila_pontos.front();
+        turtle1.goTo(aux_s.xf,aux_s.yf,0.3);
+      }
 
-      
   
       state=STOPPING;    
 
@@ -237,7 +246,7 @@ int main(int argc, char** argv)
       break;
       }
       case STOP:{
-      ROS_INFO("state = STOP");
+      ROS_INFO("state = STOP -> IDLE");
 
       break;
     }

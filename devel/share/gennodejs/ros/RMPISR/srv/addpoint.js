@@ -30,13 +30,13 @@ class addpointRequest {
         this.xf = initObj.xf
       }
       else {
-        this.xf = 0;
+        this.xf = 0.0;
       }
       if (initObj.hasOwnProperty('yf')) {
         this.yf = initObj.yf
       }
       else {
-        this.yf = 0;
+        this.yf = 0.0;
       }
       if (initObj.hasOwnProperty('type')) {
         this.type = initObj.type
@@ -50,9 +50,9 @@ class addpointRequest {
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type addpointRequest
     // Serialize message field [xf]
-    bufferOffset = _serializer.int64(obj.xf, buffer, bufferOffset);
+    bufferOffset = _serializer.float64(obj.xf, buffer, bufferOffset);
     // Serialize message field [yf]
-    bufferOffset = _serializer.int64(obj.yf, buffer, bufferOffset);
+    bufferOffset = _serializer.float64(obj.yf, buffer, bufferOffset);
     // Serialize message field [type]
     bufferOffset = _serializer.bool(obj.type, buffer, bufferOffset);
     return bufferOffset;
@@ -63,9 +63,9 @@ class addpointRequest {
     let len;
     let data = new addpointRequest(null);
     // Deserialize message field [xf]
-    data.xf = _deserializer.int64(buffer, bufferOffset);
+    data.xf = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [yf]
-    data.yf = _deserializer.int64(buffer, bufferOffset);
+    data.yf = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [type]
     data.type = _deserializer.bool(buffer, bufferOffset);
     return data;
@@ -82,14 +82,14 @@ class addpointRequest {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '4e6a9d759cb716b8e70b6066a387ed42';
+    return '2c13470f9a76d841f1bd464dbd411b07';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    int64 xf
-    int64 yf
+    float64 xf
+    float64 yf
     bool type
     
     `;
@@ -105,14 +105,14 @@ class addpointRequest {
       resolved.xf = msg.xf;
     }
     else {
-      resolved.xf = 0
+      resolved.xf = 0.0
     }
 
     if (msg.yf !== undefined) {
       resolved.yf = msg.yf;
     }
     else {
-      resolved.yf = 0
+      resolved.yf = 0.0
     }
 
     if (msg.type !== undefined) {
@@ -182,6 +182,6 @@ class addpointResponse {
 module.exports = {
   Request: addpointRequest,
   Response: addpointResponse,
-  md5sum() { return '4e6a9d759cb716b8e70b6066a387ed42'; },
+  md5sum() { return '2c13470f9a76d841f1bd464dbd411b07'; },
   datatype() { return 'RMPISR/addpoint'; }
 };

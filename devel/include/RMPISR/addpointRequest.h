@@ -24,23 +24,23 @@ struct addpointRequest_
   typedef addpointRequest_<ContainerAllocator> Type;
 
   addpointRequest_()
-    : xf(0)
-    , yf(0)
+    : xf(0.0)
+    , yf(0.0)
     , type(false)  {
     }
   addpointRequest_(const ContainerAllocator& _alloc)
-    : xf(0)
-    , yf(0)
+    : xf(0.0)
+    , yf(0.0)
     , type(false)  {
   (void)_alloc;
     }
 
 
 
-   typedef int64_t _xf_type;
+   typedef double _xf_type;
   _xf_type xf;
 
-   typedef int64_t _yf_type;
+   typedef double _yf_type;
   _yf_type yf;
 
    typedef uint8_t _type_type;
@@ -123,12 +123,12 @@ struct MD5Sum< ::RMPISR::addpointRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "4e6a9d759cb716b8e70b6066a387ed42";
+    return "2c13470f9a76d841f1bd464dbd411b07";
   }
 
   static const char* value(const ::RMPISR::addpointRequest_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x4e6a9d759cb716b8ULL;
-  static const uint64_t static_value2 = 0xe70b6066a387ed42ULL;
+  static const uint64_t static_value1 = 0x2c13470f9a76d841ULL;
+  static const uint64_t static_value2 = 0xf1bd464dbd411b07ULL;
 };
 
 template<class ContainerAllocator>
@@ -147,8 +147,8 @@ struct Definition< ::RMPISR::addpointRequest_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "int64 xf\n\
-int64 yf\n\
+    return "float64 xf\n\
+float64 yf\n\
 bool type\n\
 ";
   }
@@ -190,9 +190,9 @@ struct Printer< ::RMPISR::addpointRequest_<ContainerAllocator> >
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::RMPISR::addpointRequest_<ContainerAllocator>& v)
   {
     s << indent << "xf: ";
-    Printer<int64_t>::stream(s, indent + "  ", v.xf);
+    Printer<double>::stream(s, indent + "  ", v.xf);
     s << indent << "yf: ";
-    Printer<int64_t>::stream(s, indent + "  ", v.yf);
+    Printer<double>::stream(s, indent + "  ", v.yf);
     s << indent << "type: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.type);
   }

@@ -10,13 +10,13 @@
   ((xf
     :reader xf
     :initarg :xf
-    :type cl:integer
-    :initform 0)
+    :type cl:float
+    :initform 0.0)
    (yf
     :reader yf
     :initarg :yf
-    :type cl:integer
-    :initform 0)
+    :type cl:float
+    :initform 0.0)
    (type
     :reader type
     :initarg :type
@@ -48,50 +48,48 @@
   (type m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <addpoint-request>) ostream)
   "Serializes a message object of type '<addpoint-request>"
-  (cl:let* ((signed (cl:slot-value msg 'xf)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 18446744073709551616) signed)))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 32) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 40) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 48) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 56) unsigned) ostream)
-    )
-  (cl:let* ((signed (cl:slot-value msg 'yf)) (unsigned (cl:if (cl:< signed 0) (cl:+ signed 18446744073709551616) signed)))
-    (cl:write-byte (cl:ldb (cl:byte 8 0) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 8) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 16) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 24) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 32) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 40) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 48) unsigned) ostream)
-    (cl:write-byte (cl:ldb (cl:byte 8 56) unsigned) ostream)
-    )
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'xf))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-double-float-bits (cl:slot-value msg 'yf))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 32) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 40) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 48) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 56) bits) ostream))
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'type) 1 0)) ostream)
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <addpoint-request>) istream)
   "Deserializes a message object of type '<addpoint-request>"
-    (cl:let ((unsigned 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 32) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 40) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 48) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 56) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:slot-value msg 'xf) (cl:if (cl:< unsigned 9223372036854775808) unsigned (cl:- unsigned 18446744073709551616))))
-    (cl:let ((unsigned 0))
-      (cl:setf (cl:ldb (cl:byte 8 0) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 8) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 16) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 24) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 32) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 40) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 48) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:ldb (cl:byte 8 56) unsigned) (cl:read-byte istream))
-      (cl:setf (cl:slot-value msg 'yf) (cl:if (cl:< unsigned 9223372036854775808) unsigned (cl:- unsigned 18446744073709551616))))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'xf) (roslisp-utils:decode-double-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 32) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 40) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 48) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 56) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'yf) (roslisp-utils:decode-double-float-bits bits)))
     (cl:setf (cl:slot-value msg 'type) (cl:not (cl:zerop (cl:read-byte istream))))
   msg
 )
@@ -103,16 +101,16 @@
   "RMPISR/addpointRequest")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<addpoint-request>)))
   "Returns md5sum for a message object of type '<addpoint-request>"
-  "4e6a9d759cb716b8e70b6066a387ed42")
+  "2c13470f9a76d841f1bd464dbd411b07")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'addpoint-request)))
   "Returns md5sum for a message object of type 'addpoint-request"
-  "4e6a9d759cb716b8e70b6066a387ed42")
+  "2c13470f9a76d841f1bd464dbd411b07")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<addpoint-request>)))
   "Returns full string definition for message of type '<addpoint-request>"
-  (cl:format cl:nil "int64 xf~%int64 yf~%bool type~%~%~%"))
+  (cl:format cl:nil "float64 xf~%float64 yf~%bool type~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'addpoint-request)))
   "Returns full string definition for message of type 'addpoint-request"
-  (cl:format cl:nil "int64 xf~%int64 yf~%bool type~%~%~%"))
+  (cl:format cl:nil "float64 xf~%float64 yf~%bool type~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <addpoint-request>))
   (cl:+ 0
      8
@@ -154,10 +152,10 @@
   "RMPISR/addpointResponse")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<addpoint-response>)))
   "Returns md5sum for a message object of type '<addpoint-response>"
-  "4e6a9d759cb716b8e70b6066a387ed42")
+  "2c13470f9a76d841f1bd464dbd411b07")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'addpoint-response)))
   "Returns md5sum for a message object of type 'addpoint-response"
-  "4e6a9d759cb716b8e70b6066a387ed42")
+  "2c13470f9a76d841f1bd464dbd411b07")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<addpoint-response>)))
   "Returns full string definition for message of type '<addpoint-response>"
   (cl:format cl:nil "~%~%~%"))

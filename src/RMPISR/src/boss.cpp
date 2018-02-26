@@ -21,35 +21,57 @@
 
 void go(ros::NodeHandle nh){
   ros::service::waitForService("go");
-  ros::ServiceClient spawner =nh.serviceClient<RMPISR::go>("go");
+  ros::ServiceClient client1 =nh.serviceClient<RMPISR::go>("go");
   RMPISR::go go_;
-  spawner.call(go_);
+  client1.call(go_);
 }
 
 void stop(ros::NodeHandle nh){
   ros::service::waitForService("stop");
-  ros::ServiceClient spawner =nh.serviceClient<RMPISR::go>("stop");
+  ros::ServiceClient client2 =nh.serviceClient<RMPISR::go>("stop");
   RMPISR::stop stop_;
-  spawner.call(stop_);
+  client2.call(stop_);
+}
+
+void addpoint(ros::NodeHandle nh, float xf, float yf, bool type){
+  ros::service::waitForService("addpoint");
+  ros::ServiceClient client3 =nh.serviceClient<RMPISR::addpoint>("addpoint");
+  RMPISR::addpoint addpoint_;
+  addpoint_.request.xf=xf;
+  addpoint_.request.yf=yf;
+  addpoint_.request.type=type;
+  client3.call(addpoint_);
 }
 using namespace std;
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "boss_node");
-
   ros::NodeHandle nh;
-  if (argc != 2){
-    ROS_ERROR("you need to enter 1 or 2!"); 
-    return -1;
-  }
 
-  int num=atoll(argv[1]);
-  if(num=1) go(nh);
-  if(num=2) stop(nh);
-  else {
-    ROS_ERROR("you need to enter 1 or 2!"); 
-    return -1;
-  }
+  addpoint(nh,6,6,true);
+  addpoint(nh,7,7.5,true);
+  addpoint(nh,9,7.9,true);
+  addpoint(nh,9,9.3,true);
+  ros::Duration(2).sleep();
+  go(nh);
+  ROS_INFO("GO SENT");
+  ros::Duration(4).sleep();
+  stop(nh);
+  ROS_INFO("STOP SENT");
+  ros::Duration(3).sleep();
+  addpoint(nh,10.1,9,true);
+  addpoint(nh,5.9,11,false);
+  go(nh);
+
+
+ROS_INFO("fez todos os addpoint");
+
+
+
+
+
+
+
 
   ros::spin();
   return 0;
